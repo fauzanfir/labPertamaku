@@ -23,7 +23,7 @@
         "fields":{
             "nama_barang":"Kasur Lipat",
             "harga_barang":"500000",
-            "deskripsi": "Berapa lapis? Ratusan!"
+            "deskripsi": "Berapa lapis? Ratusan!"  
         }
     }
 ]

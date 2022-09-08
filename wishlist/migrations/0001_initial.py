@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('nama_barang', models.CharField(max_length=50)),
                 ('harga_barang', models.IntegerField()),
-                ('deskripsi', models.TextField()),
+                ('deskripsi', models.TextField()),  
             ],
         ),
     ]
