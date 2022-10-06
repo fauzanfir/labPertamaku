@@ -1,7 +1,7 @@
 from urllib import request
 from django.shortcuts import render
 from wishlist.models import BarangWishlist
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+import json
 
 @login_required(login_url='/wishlist/login/')
 def show_wishlist(request):
@@ -22,6 +23,33 @@ def show_wishlist(request):
     'last_login': request.COOKIES['last_login']
     }
     return render(request, "wishlist.html", context)
+
+@login_required(login_url='/wishlist/login/')
+def show_wishlist_ajax(request):
+    data_barang_wishlist = BarangWishlist.objects.all()
+    context = {
+    'list_barang': data_barang_wishlist,
+    'nama': 'Fauzan Firzandy Khifzan',
+    'last_login': request.COOKIES['last_login']
+    }
+    return render(request, "wishlist_ajax.html", context)
+
+def post_ajax_wishlist(request):
+    if request.method == 'POST':
+        nama_barang = request.POST['nama_barang']
+        harga_barang = request.POST['harga_barang']
+        deskripsi = request.POST['deskripsi']
+
+        ins = BarangWishlist(nama_barang=nama_barang, harga_barang=harga_barang, deskripsi=deskripsi)
+        ins.save()
+
+        data = {
+            "message" : 'Submitted!'
+        }
+        json_obj = json.dumps(data, indent = 4)
+
+        return JsonResponse(json.loads(json_obj))
+    return render(request, "add_wishlist.html")
 
 def show_xml(request):
     data = BarangWishlist.objects.all()
